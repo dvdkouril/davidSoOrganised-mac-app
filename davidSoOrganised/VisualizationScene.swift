@@ -16,6 +16,7 @@ class VisualizationScene: SKScene {
     var dayOne : DayBar!
     let numberOfDaysLoaded = 7
     var daysLoaded = [Bool]()
+    var timelineHasBeenDrawn = false
     
     override init(size: CGSize) {
         super.init(size: size)
@@ -29,31 +30,6 @@ class VisualizationScene: SKScene {
 
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-    }
-    
-    // pos ... is position of left bottom corner
-    func drawRectAt(scene : SKScene, pos : CGPoint, size : CGSize, col : SKColor) {
-        var rect = SKShapeNode(rectOfSize: size)
-        rect.fillColor = col
-        rect.position = CGPoint(x: pos.x + size.width / 2, y: pos.y + size.height / 2)
-        rect.lineWidth = 0
-        
-        scene.addChild(rect)
-    }
-    
-    func allDaysLoaded() -> Bool {
-        
-        for val in daysLoaded {
-            if !val {
-                return false
-            }
-        }
-        
-        return true
-    }
-    
-    func setDayIsLoaded(index: Int) {
-        daysLoaded[index] = true
     }
     
     override func didMoveToView(view: SKView) {
@@ -90,23 +66,53 @@ class VisualizationScene: SKScene {
             dayDataBar.requestData()
         }
         
-        //while !allDaysLoaded() {
-            
-        //}
+    }
+    
+    override func update(currentTime: NSTimeInterval) {
+        super.update(currentTime)
         
-        // timeline lines
+        if allDaysLoaded() && !timelineHasBeenDrawn {
+            drawTimeline()
+            // TODO: make sure that it only draws it once (or rather that it adds the node only once)
+            timelineHasBeenDrawn = true
+        }
+    }
+    
+    // pos ... is position of left bottom corner
+    func drawRectAt(scene : SKScene, pos : CGPoint, size : CGSize, col : SKColor) {
+        var rect = SKShapeNode(rectOfSize: size)
+        rect.fillColor = col
+        rect.position = CGPoint(x: pos.x + size.width / 2, y: pos.y + size.height / 2)
+        rect.lineWidth = 0
+        
+        scene.addChild(rect)
+    }
+    
+    func allDaysLoaded() -> Bool {
+        
+        for val in daysLoaded {
+            if !val {
+                return false
+            }
+        }
+        
+        return true
+    }
+    
+    func setDayIsLoaded(index: Int) {
+        daysLoaded[index] = true
+    }
+    
+    func drawTimeline() {
+        // 0:00
         drawRectAt(self, pos: CGPoint(x: 120, y: 58), size: CGSize(width: 1, height: 140), col: SKColor(red: 0.33, green: 0.33, blue: 0.33, alpha: 1.0))
+        // 6:00
         drawRectAt(self, pos: CGPoint(x: 263, y: 58), size: CGSize(width: 1, height: 140), col: SKColor(red: 0.33, green: 0.33, blue: 0.33, alpha: 1.0))
+        // 12:00
         drawRectAt(self, pos: CGPoint(x: 407, y: 58), size: CGSize(width: 1, height: 140), col: SKColor(red: 0.33, green: 0.33, blue: 0.33, alpha: 1.0))
+        // 18:00
         drawRectAt(self, pos: CGPoint(x: 550, y: 58), size: CGSize(width: 1, height: 140), col: SKColor(red: 0.33, green: 0.33, blue: 0.33, alpha: 1.0))
+        // 0:00
         drawRectAt(self, pos: CGPoint(x: 693, y: 58), size: CGSize(width: 1, height: 140), col: SKColor(red: 0.33, green: 0.33, blue: 0.33, alpha: 1.0))
-        
-        /*var i = 0
-        for day in 1...16 {
-            var dayDataBar = DayBar(day: "2015-06-\(day)", scene: self, yPos: offset + i*10)
-            dayDataBar.requestData()
-            i += 1
-        }*/
-        
     }
 }
