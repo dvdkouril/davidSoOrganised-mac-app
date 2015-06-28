@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VariablesViewState
+   version = "1.0">
+   <ContextStates>
+      <ContextState
+         contextName = "davidSoOrganised.MasterViewController.viewDidLoad (davidSoOrganised.MasterViewController)() -&gt; ():MasterViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "scene.size">
+            </PersistentString>
+            <PersistentString
+               value = "self.view.bounds.size">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "davidSoOrganised.VisualizationScene.(didMoveToView (davidSoOrganised.VisualizationScene) -&gt; (ObjectiveC.SKView) -&gt; ()).(closure #1):VisualizationScene.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "(800 / 288)">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+   </ContextStates>
+</VariablesViewState>
