@@ -33,16 +33,13 @@ class VisualizationScene: SKScene {
     }
     
     override func didMoveToView(view: SKView) {
-    
-        //var offset = 50
+        
         var offset = 63
-        //dayOne = DayBar(barWidth: Int(self.frame.width), barHeight: 50)
         
         // Title
         var juneText = SKLabelNode(fontNamed: "Avenir Next")
         juneText.text = "Last 7 days: 23 June 2015 - 29 June 2015"
         juneText.fontSize = 24
-        //juneText.position = CGPoint(x: self.size.width / 2, y: self.size.height / 2)
         juneText.position = CGPoint(x: 46, y: 242)
         juneText.horizontalAlignmentMode = .Left
         juneText.verticalAlignmentMode = .Bottom
@@ -61,9 +58,21 @@ class VisualizationScene: SKScene {
         // use it in the string "day"
         
         for index in 0...6 {
+            
             var dayStr = "\(components.year)-\(components.month)-\(components.day - index)"
             var dayDataBar = DayBar(day: dayStr, scene: self, yPos: offset + index*20, dayIndex: index)
             dayDataBar.requestData()
+            
+            // day title
+            //drawText(dayStr, pos: CGPoint(x: 77, y: 59 + index*20), size: 10)
+            var text = SKLabelNode(fontNamed: "Avenir Next")
+            text.text = dayStr
+            text.fontSize = 10
+            text.position = CGPoint(x: 108, y: 63 + index*20)
+            //text.horizontalAlignmentMode = .Left
+            text.horizontalAlignmentMode = .Right
+            text.verticalAlignmentMode = .Bottom
+            self.addChild(text)
         }
         
     }
@@ -103,16 +112,38 @@ class VisualizationScene: SKScene {
         daysLoaded[index] = true
     }
     
+    func drawText(textToDraw: String, pos : CGPoint, size: CGFloat) {
+        var text = SKLabelNode(fontNamed: "Avenir Next")
+        text.text = textToDraw
+        text.fontSize = size
+        text.position = pos
+        text.horizontalAlignmentMode = .Left
+        text.verticalAlignmentMode = .Bottom
+        self.addChild(text)
+    }
+    
     func drawTimeline() {
-        // 0:00
+        
+        
+        
+        // 0:00 line
         drawRectAt(self, pos: CGPoint(x: 120, y: 58), size: CGSize(width: 1, height: 140), col: SKColor(red: 0.33, green: 0.33, blue: 0.33, alpha: 1.0))
-        // 6:00
+        drawText("0:00", pos: CGPoint(x: 110, y: 203), size: 10)
+        
+        // 6:00 line
         drawRectAt(self, pos: CGPoint(x: 263, y: 58), size: CGSize(width: 1, height: 140), col: SKColor(red: 0.33, green: 0.33, blue: 0.33, alpha: 1.0))
-        // 12:00
+        drawText("6:00", pos: CGPoint(x: 253, y: 203), size: 10)
+        
+        // 12:00 line
         drawRectAt(self, pos: CGPoint(x: 407, y: 58), size: CGSize(width: 1, height: 140), col: SKColor(red: 0.33, green: 0.33, blue: 0.33, alpha: 1.0))
-        // 18:00
+        drawText("12:00", pos: CGPoint(x: 394, y: 203), size: 10)
+        
+        // 18:00 line
         drawRectAt(self, pos: CGPoint(x: 550, y: 58), size: CGSize(width: 1, height: 140), col: SKColor(red: 0.33, green: 0.33, blue: 0.33, alpha: 1.0))
-        // 0:00
+        drawText("18:00", pos: CGPoint(x: 537, y: 203), size: 10)
+        
+        // 0:00 line
         drawRectAt(self, pos: CGPoint(x: 693, y: 58), size: CGSize(width: 1, height: 140), col: SKColor(red: 0.33, green: 0.33, blue: 0.33, alpha: 1.0))
+        drawText("0:00", pos: CGPoint(x: 684, y: 203), size: 10)
     }
 }
