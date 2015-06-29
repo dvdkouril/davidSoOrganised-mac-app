@@ -25,8 +25,8 @@ class MasterViewController: NSViewController {
             scene.backgroundColor = NSColor(red: 0.1, green: 0.1, blue: 0.1, alpha: 1.0)
             
             (self.view as! SKView).presentScene(scene)
-            (self.view as! SKView).showsFPS = true
-            (self.view as! SKView).showsNodeCount = true
+            //(self.view as! SKView).showsFPS = true
+            //(self.view as! SKView).showsNodeCount = true
         }
     }
     
