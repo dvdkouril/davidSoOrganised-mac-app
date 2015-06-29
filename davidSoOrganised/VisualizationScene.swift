@@ -36,14 +36,7 @@ class VisualizationScene: SKScene {
         
         var offset = 63
         
-        // Title
-        var juneText = SKLabelNode(fontNamed: "Avenir Next")
-        juneText.text = "Last 7 days: 23 June 2015 - 29 June 2015"
-        juneText.fontSize = 24
-        juneText.position = CGPoint(x: 46, y: 242)
-        juneText.horizontalAlignmentMode = .Left
-        juneText.verticalAlignmentMode = .Bottom
-        self.addChild(juneText)
+        
         
         // get current date
         let calendar = NSCalendar.currentCalendar()
@@ -74,6 +67,19 @@ class VisualizationScene: SKScene {
             text.verticalAlignmentMode = .Bottom
             self.addChild(text)
         }
+        
+        var endStr = "\(components.year)-\(components.month)-\(components.day)"
+        var startStr = "\(components.year)-\(components.month)-\(components.day - 6)"
+        
+        // Title
+        var juneText = SKLabelNode(fontNamed: "Avenir Next")
+        //juneText.text = "Last 7 days: 23 June 2015 - 29 June 2015"
+        juneText.text = "Last 7 days: \(startStr) - \(endStr)"
+        juneText.fontSize = 24
+        juneText.position = CGPoint(x: 46, y: 242)
+        juneText.horizontalAlignmentMode = .Left
+        juneText.verticalAlignmentMode = .Bottom
+        self.addChild(juneText)
         
     }
     
