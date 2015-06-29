@@ -92,7 +92,7 @@ class DayBar {
                 }
                 
                 println("finished request")
-                // dirty...
+                // dirty... (maybe not so much after all...)
                 self.drawGraph(self.scene)
                 (self.scene as! VisualizationScene).setDayIsLoaded(self.dayIndex)
         }
