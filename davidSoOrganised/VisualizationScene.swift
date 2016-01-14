@@ -21,7 +21,7 @@ class VisualizationScene: SKScene {
     override init(size: CGSize) {
         super.init(size: size)
         //println("init start")
-        for i in 0..<numberOfDaysLoaded {
+        for _ in 0..<numberOfDaysLoaded {
             daysLoaded.append(false)
             //println(i)
         }
@@ -34,31 +34,32 @@ class VisualizationScene: SKScene {
     
     override func didMoveToView(view: SKView) {
         
-        var offset = 63
+        let offset = 63
         
         
         
         // get current date
         let calendar = NSCalendar.currentCalendar()
         let date = NSDate()
-        let components = calendar.components(.CalendarUnitDay | .CalendarUnitMonth | .CalendarUnitYear, fromDate: date)
+        let components = calendar.components([.Day, .Month, .Year], fromDate: date)
         // extract day/ month/ year from the date
-        var dateFormatter = NSDateFormatter()
+        let dateFormatter = NSDateFormatter()
         dateFormatter.dateFormat = "YYYY-MM-dd"
-        var dateString = dateFormatter.stringFromDate(date)
+        
+        //var dateString = dateFormatter.stringFromDate(date)
         //println(dateString)
         
         // use it in the string "day"
         
         for index in 0...6 {
             
-            var dayStr = "\(components.year)-\(components.month)-\(components.day - index)"
-            var dayDataBar = DayBar(day: dayStr, scene: self, yPos: offset + index*20, dayIndex: index)
+            let dayStr = "\(components.year)-\(components.month)-\(components.day - index)"
+            let dayDataBar = DayBar(day: dayStr, scene: self, yPos: offset + index*20, dayIndex: index)
             dayDataBar.requestData()
             
             // day title
             //drawText(dayStr, pos: CGPoint(x: 77, y: 59 + index*20), size: 10)
-            var text = SKLabelNode(fontNamed: "Avenir Next")
+            let text = SKLabelNode(fontNamed: "Avenir Next")
             text.text = dayStr
             text.fontSize = 10
             text.position = CGPoint(x: 108, y: 63 + index*20)
@@ -68,11 +69,11 @@ class VisualizationScene: SKScene {
             self.addChild(text)
         }
         
-        var endStr = "\(components.year)-\(components.month)-\(components.day)"
-        var startStr = "\(components.year)-\(components.month)-\(components.day - 6)"
+        let endStr = "\(components.year)-\(components.month)-\(components.day)"
+        let startStr = "\(components.year)-\(components.month)-\(components.day - 6)"
         
         // Title
-        var juneText = SKLabelNode(fontNamed: "Avenir Next")
+        let juneText = SKLabelNode(fontNamed: "Avenir Next")
         //juneText.text = "Last 7 days: 23 June 2015 - 29 June 2015"
         juneText.text = "Last 7 days: \(startStr) - \(endStr)"
         juneText.fontSize = 24
@@ -95,7 +96,7 @@ class VisualizationScene: SKScene {
     
     // pos ... is position of left bottom corner
     func drawRectAt(scene : SKScene, pos : CGPoint, size : CGSize, col : SKColor) {
-        var rect = SKShapeNode(rectOfSize: size)
+        let rect = SKShapeNode(rectOfSize: size)
         rect.fillColor = col
         rect.position = CGPoint(x: pos.x + size.width / 2, y: pos.y + size.height / 2)
         rect.lineWidth = 0
@@ -119,7 +120,7 @@ class VisualizationScene: SKScene {
     }
     
     func drawText(textToDraw: String, pos : CGPoint, size: CGFloat) {
-        var text = SKLabelNode(fontNamed: "Avenir Next")
+        let text = SKLabelNode(fontNamed: "Avenir Next")
         text.text = textToDraw
         text.fontSize = size
         text.position = pos

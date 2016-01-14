@@ -61,9 +61,15 @@ class DayBar {
             "restrict_begin" : dayTimeStamp,
             "restrict_end" : dayTimeStamp,
             "resolution_time" : "minute"]).responseJSON() {
-                (_, _, data, _) in
+                //(_, _, data, _) in
+                response in
+                
+                guard let data = response.result.value else {
+                    print("Request failed.")
+                    return
+                }
         
-                let json = JSON(data!) // I will be parsing the data with SwiftyJSON
+                let json = JSON(data) // I will be parsing the data with SwiftyJSON
                 
                 //var fragsDir = [String:TimeFragment]() // in this directory I store information about all time fragments tracked
                 
@@ -87,11 +93,11 @@ class DayBar {
                     
                 }
                 // debug: In what interval are the productivity data?
-                for (String,timeFragment) in self.fragsDir {
-                    println(timeFragment.weightedAverageOfActivities())
+                for (_,timeFragment) in self.fragsDir {
+                    print(timeFragment.weightedAverageOfActivities())
                 }
                 
-                println("finished request")
+                print("finished request")
                 // dirty... (maybe not so much after all...)
                 self.drawGraph(self.scene)
                 (self.scene as! VisualizationScene).setDayIsLoaded(self.dayIndex)
@@ -104,43 +110,42 @@ class DayBar {
             return
         }
         
-        var sampleTimeStamp = fragsDir[fragsDir.startIndex].0 // pick the first record in directory, just to get
+        let sampleTimeStamp = fragsDir[fragsDir.startIndex].0 // pick the first record in directory, just to get
         // the same day date
         
-        var dateFormatter = NSDateFormatter()
+        let dateFormatter = NSDateFormatter()
         dateFormatter.dateFormat = "YYYY-MM-dd'T'HH:mm:ss"
         dateFormatter.timeZone = NSTimeZone.localTimeZone()
-        var dayDate = dateFormatter.dateFromString(sampleTimeStamp)
-        println(dateFormatter.stringFromDate(dayDate!)) // this is how see the "correct" date
+        let dayDate = dateFormatter.dateFromString(sampleTimeStamp)
+        print(dateFormatter.stringFromDate(dayDate!)) // this is how see the "correct" date
         
         let calendar = NSCalendar.currentCalendar()
-        var components = calendar.components(.CalendarUnitDay | .CalendarUnitMonth | .CalendarUnitYear |
-            .CalendarUnitHour | .CalendarUnitMinute | .CalendarUnitSecond, fromDate: dayDate!)
+        let components = calendar.components([.Day, .Month, .Year, .Hour, .Minute, .Second], fromDate: dayDate!)
         // reseting the time to start of the day
         components.hour = 0
         components.minute = 0
         components.second = 0
         var iteratingDate = calendar.dateFromComponents(components)
-        println("after reseting: \(dateFormatter.stringFromDate(iteratingDate!))")
+        print("after reseting: \(dateFormatter.stringFromDate(iteratingDate!))")
         
         components.hour = 23
         components.minute = 55
         components.second = 0
-        var endDate = calendar.dateFromComponents(components)
-        println("last date to check: \(dateFormatter.stringFromDate(endDate!))")
+        let endDate = calendar.dateFromComponents(components)
+        print("last date to check: \(dateFormatter.stringFromDate(endDate!))")
         
-        println("Number of fragments: \(fragsDir.count)")
+        print("Number of fragments: \(fragsDir.count)")
         
         var i = 0
         //var xOffset : CGFloat = (800 - 576) / 2
-        var xOffset : CGFloat = 120
+        let xOffset : CGFloat = 120
         
         // background rect (untracked time)
         drawRectAt(scene, pos: CGPoint(x: xOffset, y: CGFloat(barYPos)), size: CGSize(width: 576, height: 10), col: SKColor(red: 0.16, green: 0.16, blue: 0.16, alpha: 1.0))
         
         while !(iteratingDate!.isEqualToDate(endDate!)) { // bug: doesn't draw the last 5-min
-            var itDateString = dateFormatter.stringFromDate(iteratingDate!)
-            var size = CGSize(width: 576 / 288, height: 10)
+            let itDateString = dateFormatter.stringFromDate(iteratingDate!)
+            let size = CGSize(width: 576 / 288, height: 10)
             
             if fragsDir.indexForKey(itDateString) == nil { // no activity for this date
                 // draw empty rect
@@ -152,7 +157,7 @@ class DayBar {
                 // draw rect based on average productivity
                 var color : SKColor
                 
-                var productivity = fragsDir[itDateString]?.weightedAverageOfActivities()
+                let productivity = fragsDir[itDateString]?.weightedAverageOfActivities()
                 
                 switch productivity! {
                 case -2...(-1):
@@ -182,7 +187,7 @@ class DayBar {
     
     // pos ... is position of left bottom corner
     func drawRectAt(scene : SKScene, pos : CGPoint, size : CGSize, col : SKColor) {
-        var rect = SKShapeNode(rectOfSize: size)
+        let rect = SKShapeNode(rectOfSize: size)
         rect.fillColor = col
         rect.position = CGPoint(x: pos.x + size.width / 2, y: pos.y + size.height / 2)
         rect.lineWidth = 0

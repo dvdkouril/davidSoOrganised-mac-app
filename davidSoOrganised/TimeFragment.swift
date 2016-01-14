@@ -9,7 +9,7 @@
 import Foundation
 
 // TimeFragment class represents 5 minute time fragment with information about activites done in that 5 minute interval
-class TimeFragment : Equatable, Printable, DebugPrintable {
+class TimeFragment : Equatable, CustomStringConvertible, CustomDebugStringConvertible {
     let timeStamp : String
     var activities : [(String,Int,Int)] // triple: name, time (in seconds), productivity score
     
@@ -47,10 +47,11 @@ class TimeFragment : Equatable, Printable, DebugPrintable {
     
     // computes weighted averages: 
     // (activity_1 * time_lasted_1 + activity_2 * time_lasted_2 + ...) / (time_lasted_1 + time_lasted_2 + ...)
-    func weightedAverageOfActivities() -> Double {        var sum : Int = 0
+    func weightedAverageOfActivities() -> Double {
+        var sum : Int = 0
         var sumWeights : Int = 0
         
-        for (name, time, productivity) in activities {
+        for (_, time, productivity) in activities {
             sum += productivity * time
             sumWeights += time
         }
