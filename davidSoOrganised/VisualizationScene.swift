@@ -36,31 +36,39 @@ class VisualizationScene: SKScene {
         
         let offset = 63
         
-        
-        
-        // get current date
+        // TODO:
+        //    1. get current date
         let calendar = NSCalendar.currentCalendar()
-        let date = NSDate()
-        let components = calendar.components([.Day, .Month, .Year], fromDate: date)
+        let date = NSDate() // today's date
+        var components = calendar.components([.Weekday, .Day, .Month, .Year], fromDate: date)
         // extract day/ month/ year from the date
         let dateFormatter = NSDateFormatter()
         dateFormatter.dateFormat = "YYYY-MM-dd"
         
-        //var dateString = dateFormatter.stringFromDate(date)
-        //println(dateString)
+        //    2. find last monday
+        //    3. draw graph for 7 days starting from that monday
         
         // use it in the string "day"
         
         for index in 0...6 {
-            
-            let dayStr = "\(components.year)-\(components.month)-\(components.day - index)"
+            let currentBarDate = calendar.dateByAddingUnit(.Day, value: -index, toDate: date, options: [])!
+            components = calendar.components([.Weekday, .Day, .Month, .Year], fromDate: currentBarDate)
+            //let dayStr = "\(components.year)-\(components.month)-\(components.day - index)"
+            let dayStr = "\(components.year)-\(components.month)-\(components.day)"
+            //components.day
+            //let weekday = components.weekday
             let dayDataBar = DayBar(day: dayStr, scene: self, yPos: offset + index*20, dayIndex: index)
             dayDataBar.requestData()
+            
+            //let weekdayStr = getWeekdayString(weekday)
+            let weekdayFormatter = NSDateFormatter()
+            weekdayFormatter.dateFormat = "EEE"
+            let weekdayStr = weekdayFormatter.stringFromDate(currentBarDate)
             
             // day title
             //drawText(dayStr, pos: CGPoint(x: 77, y: 59 + index*20), size: 10)
             let text = SKLabelNode(fontNamed: "Avenir Next")
-            text.text = dayStr
+            text.text = "\(weekdayStr) \(dayStr)"
             text.fontSize = 10
             text.position = CGPoint(x: 108, y: 63 + index*20)
             //text.horizontalAlignmentMode = .Left
@@ -153,4 +161,5 @@ class VisualizationScene: SKScene {
         drawRectAt(self, pos: CGPoint(x: 693, y: 58), size: CGSize(width: 1, height: 140), col: SKColor(red: 0.33, green: 0.33, blue: 0.33, alpha: 1.0))
         drawText("0:00", pos: CGPoint(x: 684, y: 203), size: 10)
     }
+    
 }

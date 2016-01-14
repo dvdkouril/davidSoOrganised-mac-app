@@ -16,7 +16,7 @@ class MasterViewController: NSViewController {
         // Do view setup here.
         
 
-        if let scene = VisualizationScene.init(size: CGSize(width: 800, height: 300)) as? VisualizationScene {
+        /*if let */let scene = VisualizationScene.init(size: CGSize(width: 800, height: 300)) /*as? VisualizationScene*/ /*{*/
             scene.size = self.view.bounds.size
             //println("scene.size = \(scene.size)")
             //println("self.view.bounds.size = \(self.view.bounds.size)")
@@ -27,7 +27,7 @@ class MasterViewController: NSViewController {
             (self.view as! SKView).presentScene(scene)
             (self.view as! SKView).showsFPS = true
             (self.view as! SKView).showsNodeCount = true
-        }
+       // }
     }
     
 }
